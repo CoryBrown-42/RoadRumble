@@ -18,6 +18,7 @@ ATrigger::ATrigger()
 
 	RootComponent = TriggerVolume;
 	TriggerVolume->OnComponentBeginOverlap.AddDynamic(this, &ATrigger::OnOverlapBegin);
+	TriggerVolume->OnComponentEndOverlap.AddDynamic(this, &ATrigger::OnOverlapEnd);
 
 }
 
@@ -43,5 +44,15 @@ void ATrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 		Platform->AddActiveTrigger();
 	}
 	
+}
+
+void ATrigger::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Deactivated"));
+	for (AMovingPlatform* Platform : PlatformsToTrigger)
+	{
+		Platform->RemoveActiveTrigger();
+	}
+
 }
 
