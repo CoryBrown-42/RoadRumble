@@ -139,6 +139,7 @@ void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Handbrake", IE_Pressed, this, &ABattleCarsPawn::OnHandbrakePressed);
 	PlayerInputComponent->BindAction("Handbrake", IE_Released, this, &ABattleCarsPawn::OnHandbrakeReleased);
 	PlayerInputComponent->BindAction("SwitchCamera", IE_Pressed, this, &ABattleCarsPawn::OnToggleCamera);
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ABattleCarsPawn::OnWeaponFire);
 
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABattleCarsPawn::OnResetVR); 
 }
@@ -146,6 +147,7 @@ void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 void ABattleCarsPawn::MoveForward(float Val)
 {
 	GetVehicleMovementComponent()->SetThrottleInput(Val);
+	
 }
 
 void ABattleCarsPawn::MoveRight(float Val)
@@ -161,6 +163,11 @@ void ABattleCarsPawn::OnHandbrakePressed()
 void ABattleCarsPawn::OnHandbrakeReleased()
 {
 	GetVehicleMovementComponent()->SetHandbrakeInput(false);
+}
+
+void ABattleCarsPawn::OnWeaponFire()
+{
+	//GetVehicleMovementComponent()->SetHandbrakeInput(false);
 }
 
 void ABattleCarsPawn::OnToggleCamera()

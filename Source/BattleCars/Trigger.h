@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
+//#include "Engine/Private/GameplayStatics.cpp"
+
+//Engine generated header file
 #include "Trigger.generated.h"
 
 UCLASS()
@@ -38,5 +42,6 @@ private:
 
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 
 };

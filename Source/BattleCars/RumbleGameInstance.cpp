@@ -3,15 +3,34 @@
 
 #include "RumbleGameInstance.h"
 #include "Engine/Engine.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
 
 URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitializer)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Game Instance Constructor"));
+
+	//Initialize the main menu reference to the widget blueprint.
+	ConstructorHelpers::FClassFinder<UUserWidget>MenuBPClass(TEXT("Game/UI/MainMenu.uasset"));
+
+	//Check if the widget is not null
+	if (!ensure(MenuBPClass.Class != nullptr)) return;
+	MenuClass = MenuBPClass.Class;
 }
 
 void URumbleGameInstance::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Game Instance Init"));
+}
+
+void URumbleGameInstance::LoadMenu()
+{
+	if (!ensure(MenuClass != nullptr)) return;
+	UUserWidget* Menu = CreateWidget<UUserWidget>(this, MenuClass);
+
+	if (!ensure(Menu != nullptr)) return;
+	Menu->AddToViewport(0);
+	Menu->bIsFocusable = true;
 }
 
 //Command to Host a game.
@@ -28,8 +47,6 @@ void URumbleGameInstance::Host()
 	//Travel to world map as listen server.
 	World->ServerTravel("/Game/Maps/TestMap?listen");
 
-	//Using Engine instead
-	//GEngine->
 }
 
 //Command to Join a game.
@@ -48,5 +65,5 @@ void URumbleGameInstance::Join(const FString& Address)
 //Command to Kill yourself.
 void URumbleGameInstance::Kill()
 {
-	GetPrimaryPlayerController(true)->Destroy();
+	GetPrimaryPlayerController(true)->GetOwner()->Destroy();
 }

@@ -4,7 +4,6 @@ AMovingPlatform::AMovingPlatform()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	SetMobility(EComponentMobility::Movable);
-
 	bReplicates = true;
 }
 
@@ -29,12 +28,14 @@ void AMovingPlatform::Tick(float DeltaTime)
 	//Only if there are active triggers.
 	if (ActiveTriggers > 0)
 	{
+		//Check if the movement is authorized by the server
 		if (HasAuthority())
 		{
 			FVector Location = GetActorLocation();
 			float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
 			float JourneyTravelled = (Location - GlobalStartLocation).Size();
 
+			/*If the object has reached the vector3 point, return*/
 			if (JourneyTravelled > JourneyLength)
 			{
 				FVector Swap = GlobalStartLocation;
