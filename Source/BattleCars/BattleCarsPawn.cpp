@@ -47,6 +47,7 @@ ABattleCarsPawn::ABattleCarsPawn()
 
 	check(Vehicle4W->WheelSetups.Num() == 4);
 
+	/*Front Wheels*/
 	Vehicle4W->WheelSetups[0].WheelClass = UBattleCarsWheelFront::StaticClass();
 	Vehicle4W->WheelSetups[0].BoneName = FName("Wheel_Front_Left");
 	Vehicle4W->WheelSetups[0].AdditionalOffset = FVector(0.f, -12.f, 0.f);
@@ -55,6 +56,7 @@ ABattleCarsPawn::ABattleCarsPawn()
 	Vehicle4W->WheelSetups[1].BoneName = FName("Wheel_Front_Right");
 	Vehicle4W->WheelSetups[1].AdditionalOffset = FVector(0.f, 12.f, 0.f);
 
+	/*Rear Wheels*/
 	Vehicle4W->WheelSetups[2].WheelClass = UBattleCarsWheelRear::StaticClass();
 	Vehicle4W->WheelSetups[2].BoneName = FName("Wheel_Rear_Left");
 	Vehicle4W->WheelSetups[2].AdditionalOffset = FVector(0.f, -12.f, 0.f);
@@ -119,6 +121,7 @@ ABattleCarsPawn::ABattleCarsPawn()
 
 	// Colors for the in-car gear display. One for normal one for reverse
 	GearDisplayReverseColor = FColor(255, 0, 0, 255);
+
 	GearDisplayColor = FColor(255, 255, 255, 255);
 
 	bInReverseGear = false;
@@ -206,10 +209,10 @@ void ABattleCarsPawn::Tick(float Delta)
 	// Setup the flag to say we are in reverse gear
 	bInReverseGear = GetVehicleMovement()->GetCurrentGear() < 0;
 	
-	// Update the strings used in the hud (incar and onscreen)
+	// Update the strings used in the HUD (incar and onscreen)
 	UpdateHUDStrings();
 
-	// Set the string in the incar hud
+	// Set the string in the incar HUD
 	SetupInCarHUD();
 
 	bool bHMDActive = false;

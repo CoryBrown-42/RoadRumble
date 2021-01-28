@@ -19,7 +19,6 @@ public:
 	// Sets default values for this actor's properties
 	ATrigger();
 
-	
 
 protected:
 	// Called when the game starts or when spawned

@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -86,9 +87,8 @@ public:
 
 	/** Handle pressing forwards */
 	void MoveForward(float Val);
-	/** Setup the strings used on the hud */
+	/** Setup the strings used on the HUD */
 	void SetupInCarHUD();
-
 	/** Update the physics material used by the vehicle mesh */
 	void UpdatePhysicsMaterial();
 	/** Handle pressing right */
@@ -101,7 +101,7 @@ public:
 	void OnToggleCamera();
 	/** Handle reset VR device */
 	void OnResetVR();
-	/**Fire weapon**/
+	/** Fire weapon **/
 	void OnWeaponFire();
 
 	static const FName LookUpBinding;
@@ -134,6 +134,7 @@ public:
 	FORCEINLINE UTextRenderComponent* GetInCarSpeed() const { return InCarSpeed; }
 	/** Returns InCarGear subobject **/
 	FORCEINLINE UTextRenderComponent* GetInCarGear() const { return InCarGear; }
+
 };
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

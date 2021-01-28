@@ -23,9 +23,32 @@
 			"Enabled": true
 		},
 		{
-			"Name": "DarkerNodes",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/4b3441f0228a40ec9ca986489a5bd682"
+			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "Water",
+			"Enabled": true
+		},
+		{
+			"Name": "Paper2D",
+			"Enabled": false
+		},
+		{
+			"Name": "ExampleAssetEditor",
+			"Enabled": true
+		},
+		{
+			"Name": "AssetSearch",
+			"Enabled": true
+		},
+		{
+			"Name": "DisasterRecoveryClient",
+			"Enabled": true
+		},
+		{
+			"Name": "NiagaraExtras",
+			"Enabled": true
 		}
 	]
 }

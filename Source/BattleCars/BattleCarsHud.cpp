@@ -36,7 +36,8 @@ void ABattleCarsHud::DrawHUD()
 #if HMD_MODULE_INCLUDED
 	bWantHUD = !GEngine->IsStereoscopic3D();
 #endif // HMD_MODULE_INCLUDED
-	// We dont want the onscreen hud when using a HMD device	
+
+	// We don't want the onscreen HUD when using a HMD device	
 	if (bWantHUD == true)
 	{
 		// Get our vehicle so we can check if we are in car. If we are we don't want onscreen HUD

@@ -26,33 +26,37 @@ ATrigger::ATrigger()
 void ATrigger::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ATrigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
+//Begin Overlap Event
 void ATrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Activated"));
+	//Log that trigger has been activated by an overlapped AActor
+	UE_LOG(LogTemp, Warning, TEXT("On"));
+
+	// Loop through the platforms this trigger affects and call AddActiveTrigger
 	for (AMovingPlatform* Platform : PlatformsToTrigger)
 	{
 		Platform->AddActiveTrigger();
 	}
-	
 }
 
+//End Overlap Event
 void ATrigger::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Deactivated"));
+	//Log that trigger has been deactivated.
+	UE_LOG(LogTemp, Warning, TEXT("Off"));
+
+	// Loop through the platforms this trigger affects and call RemoveActiveTrigger
 	for (AMovingPlatform* Platform : PlatformsToTrigger)
 	{
 		Platform->RemoveActiveTrigger();
 	}
-
 }
 
