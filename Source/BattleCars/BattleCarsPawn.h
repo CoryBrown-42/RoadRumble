@@ -5,6 +5,8 @@
 
 #include "CoreMinimal.h"
 #include "WheeledVehicle.h"
+#include "AbililitySystemInferface.h"
+#include <GameplayEffectTypes.h>
 #include "BattleCarsPawn.generated.h"
 
 class UCameraComponent;
@@ -15,7 +17,7 @@ class UInputComponent;
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 UCLASS(config=Game)
-class ABattleCarsPawn : public AWheeledVehicle
+class ABattleCarsPawn : public AWheeledVehicle, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -42,6 +44,14 @@ class ABattleCarsPawn : public AWheeledVehicle
 	/** Text component for the In-Car gear */
 	UPROPERTY(Category = Display, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UTextRenderComponent* InCarGear;
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities", meta = (AllowPrivateAccess = "true"))
+	class UGASAbilitySystemComponent* AbilitySystemComponent;
+
+
+	UPROPERTY()
+	class UGASAttributeSet* Attributes;
 
 	
 public:
@@ -71,10 +81,28 @@ public:
 	UPROPERTY(Category = Camera, VisibleDefaultsOnly, BlueprintReadOnly)
 	bool bInReverseGear;
 
-	/** Initial offset of incar camera */
+	/** Initial offset of in-car camera */
 	FVector InternalCameraOrigin;
 	// Begin Pawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
+
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	/*GAS*/
+	virtual void InitializeAttributes();
+	virtual void GiveAbilities();
+
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS")
+	TSubclassOf<class UGameplayEffect> DefaultAttributeEfffect;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS")
+	TArray<TSubclassOf<class UGASGameplayAbility>> DefaultAbilities;
+
+
+
 	// End Pawn interface
 
 	// Begin Actor interface
