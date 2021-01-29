@@ -66,14 +66,14 @@ public:
 	FText GearDisplayString;
 
 	UPROPERTY(Category = Display, VisibleDefaultsOnly, BlueprintReadOnly)
-	/** The color of the incar gear text in forward gears */
+	/** The color of the in-car gear text in forward gears */
 	FColor	GearDisplayColor;
 
-	/** The color of the incar gear text when in reverse */
+	/** The color of the in-car gear text when in reverse */
 	UPROPERTY(Category = Display, VisibleDefaultsOnly, BlueprintReadOnly)
 	FColor	GearDisplayReverseColor;
 
-	/** Are we using incar camera */
+	/** Are we using in-car camera */
 	UPROPERTY(Category = Camera, VisibleDefaultsOnly, BlueprintReadOnly)
 	bool bInCarCameraActive;
 
@@ -83,6 +83,7 @@ public:
 
 	/** Initial offset of in-car camera */
 	FVector InternalCameraOrigin;
+
 	// Begin Pawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
@@ -137,11 +138,12 @@ public:
 
 private:
 	/** 
-	 * Activate In-Car camera. Enable camera and sets visibility of incar hud display
-	 *
-	 * @param	bState true will enable in car view and set visibility of various if its doesnt match new state
+	 * 
+	 * Activate In-Car camera. Enable camera and sets visibility of in-car HUD display
+	 * @param	bState true will enable in car view and set visibility of various if its doesn't match new state
 	 * @param	bForce true will force to always change state
-	 */
+	 * 
+	 **/
 	void EnableIncarView( const bool bState, const bool bForce = false );
 
 	/** Update the gear and speed strings */

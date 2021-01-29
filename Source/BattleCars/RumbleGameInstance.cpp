@@ -10,10 +10,8 @@ URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitial
 {
 	UE_LOG(LogTemp, Warning, TEXT("Game Instance Constructor"));
 
-
 	//Initialize the main menu reference to the widget blueprint.
 	ConstructorHelpers::FClassFinder<UUserWidget>MenuBPClass(TEXT("Game/UI/MainMenu.uasset"));
-
 
 	//Check if the widget is not null
 	if (!ensure(MenuBPClass.Class != nullptr)) return;
@@ -67,5 +65,8 @@ void URumbleGameInstance::Join(const FString& Address)
 //Command to Kill yourself.
 void URumbleGameInstance::Kill()
 {
-	GetPrimaryPlayerController(true)->GetOwner()->Destroy();
+	if (HasAuthority()) 
+	{
+		GetPrimaryPlayerController(true)->GetOwner()->Destroy();
+	}
 }

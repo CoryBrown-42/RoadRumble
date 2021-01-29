@@ -8,7 +8,7 @@ UGASAttributeSet::UGASAttributeSet()
 
 }
 
-void UGASAttributeSet::GetLifetimeReplicatedProps((TArray<FLifetimeProperty>& OutLifetimeProps) const 
+void UGASAttributeSet::GetLifetimeReplicatedProps((TArray<FLifetimeProperty>& OutLifetimeProps)
 {
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
