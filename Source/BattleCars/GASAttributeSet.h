@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
 
-
 #include "GASAttributeSet.generated.h"
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName)				\
@@ -36,7 +35,6 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
 
-
 	
 	/*Stamina ********************************************************************/
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Stamina)
@@ -47,7 +45,6 @@ public:
 	virtual void OnRep_Stamina(const FGameplayAttributeData& OldStamina);
 
 	
-	
 	/*Attack ********************************************************************/
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Attack)
 	FGameplayAttributeData Attack;
@@ -55,4 +52,5 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_Attack(const FGameplayAttributeData& OldAttack);
+
 };

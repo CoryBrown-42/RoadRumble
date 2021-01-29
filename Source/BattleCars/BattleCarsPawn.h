@@ -5,7 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "WheeledVehicle.h"
-#include "AbililitySystemInferface.h"
+#include "AbilitySystemInterface.h"
 #include <GameplayEffectTypes.h>
 #include "BattleCarsPawn.generated.h"
 
