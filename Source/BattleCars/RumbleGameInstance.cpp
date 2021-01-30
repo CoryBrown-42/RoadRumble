@@ -65,8 +65,5 @@ void URumbleGameInstance::Join(const FString& Address)
 //Command to Kill yourself.
 void URumbleGameInstance::Kill()
 {
-	if (HasAuthority()) 
-	{
-		GetPrimaryPlayerController(true)->GetOwner()->Destroy();
-	}
+	GetPrimaryPlayerController(true)->GetOwner()->Destroy();
 }
