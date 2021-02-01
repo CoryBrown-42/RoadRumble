@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "MenuInterface.h"
 #include "RumbleGameInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BATTLECARS_API URumbleGameInstance : public UGameInstance
+class BATTLECARS_API URumbleGameInstance : public UGameInstance, public IMenuInterface
 {
 	GENERATED_BODY()
 
@@ -19,9 +20,12 @@ public:
 
 	virtual void Init();
 
+	/*This function loads the Main Menu and adds it to the viewport.
+	It also validates that the menu has been successfully created before adding it.*/
 	UFUNCTION(BlueprintCallable)
 	void LoadMenu();
 
+	/*Host an online game.*/
 	UFUNCTION(exec)
 	void Host();
 

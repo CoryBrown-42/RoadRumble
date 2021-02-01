@@ -15,10 +15,10 @@
 #include "Components/TextRenderComponent.h"
 #include "Materials/Material.h"
 #include "GameFramework/Controller.h"
-#include "GASAbilitySystemComponent.h"
-#include "GASAttributeSet.h"
-#include "GASGameplayAbility.h"
-#include <GameplayEffectTypes.h>
+//#include "GASAbilitySystemComponent.h"
+//#include "GASAttributeSet.h"
+//#include "GASGameplayAbility.h"
+//#include <GameplayEffectTypes.h>
 
 #ifndef HMD_MODULE_INCLUDED
 #define HMD_MODULE_INCLUDED 0
@@ -74,7 +74,7 @@ ABattleCarsPawn::ABattleCarsPawn()
 	SpringArm->TargetOffset = FVector(0.f, 0.f, 200.f);
 	SpringArm->SetRelativeRotation(FRotator(-15.f, 0.f, 0.f));
 	SpringArm->SetupAttachment(RootComponent);
-	SpringArm->TargetArmLength = 600.0f;
+	SpringArm->TargetArmLength = 800.0f;
 	SpringArm->bEnableCameraRotationLag = true;
 	SpringArm->CameraRotationLagSpeed = 7.f;
 	SpringArm->bInheritPitch = false;
@@ -130,11 +130,11 @@ ABattleCarsPawn::ABattleCarsPawn()
 
 	bInReverseGear = false;
 
-	AbilitySystemComponent = CreateDefaultSubobject<UGASAbilitySystemComponent>("AbilitySystemComponent");
-	AbilitySystemComponent->SetIsReplicated(true);
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
-
-	Attributes = CreateDefaultSubobject<UGASAttributeSet>("Attributes");
+	//AbilitySystemComponent = CreateDefaultSubobject<UGASAbilitySystemComponent>("AbilitySystemComponent");
+	//AbilitySystemComponent->SetIsReplicated(true);
+	//AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	//
+	//Attributes = CreateDefaultSubobject<UGASAttributeSet>("Attributes");
 
 }
 
@@ -143,9 +143,9 @@ ABattleCarsPawn::ABattleCarsPawn()
 void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	// set up gameplay key bindings
-	check(PlayerInputComponent);
+	//
+	//// set up gameplay key bindings
+	//check(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ABattleCarsPawn::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ABattleCarsPawn::MoveRight);
@@ -159,11 +159,11 @@ void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABattleCarsPawn::OnResetVR); 
 
-	if (AbilitySystemComponent && InputComponent)
-	{
-		const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
-		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
-	}
+	//if (AbilitySystemComponent && InputComponent)
+	//{
+	//	const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
+	//	AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
+	//}
 }
 
 void ABattleCarsPawn::MoveForward(float Val)
@@ -220,61 +220,61 @@ void ABattleCarsPawn::EnableIncarView(const bool bState, const bool bForce)
 	}
 }
 
-class UAbilitySystemComponent* ABattleCarsPawn::GetAbilitySystemComponent() const 
-{
-	return AbilitySystemComponent;
-}
+//class UAbilitySystemComponent* ABattleCarsPawn::GetAbilitySystemComponent() const 
+//{
+//	return AbilitySystemComponent;
+//}
 
-void ABattleCarsPawn::InitializeAttributes()
-{
-	if (AbilitySystemComponent && DefaultAttributeEfffect)
-	{
-		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
-		EffectContext.AddSourceObject(this);
+//void ABattleCarsPawn::InitializeAttributes()
+//{
+//	if (AbilitySystemComponent && DefaultAttributeEfffect)
+//	{
+//		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+//		EffectContext.AddSourceObject(this);
+//
+//		FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEfffect, 1, EffectContext);
+//
+//		if (SpecHandle.IsValid())
+//		{
+//			FActiveGameplayEffectHandle GEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+//		}
+//
+//	}
+//}
 
-		FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEfffect, 1, EffectContext);
+//void ABattleCarsPawn::GiveAbilities()
+//{
+//	if (HasAuthority() && AbilitySystemComponent)
+//	{
+//		for (TSubclassOf<UGASGameplayAbility>& StartupAbility : DefaultAbilities)
+//		{
+//			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility, 1, static_cast<int32>(StartupAbility.GetDefaultObject()->AbilityInputID), this));
+//		}
+//	}
+//}
 
-		if (SpecHandle.IsValid())
-		{
-			FActiveGameplayEffectHandle GEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-		}
-
-	}
-}
-
-void ABattleCarsPawn::GiveAbilities()
-{
-	if (HasAuthority() && AbilitySystemComponent)
-	{
-		for (TSubclassOf<UGASGameplayAbility>& StartupAbility : DefaultAbilities)
-		{
-			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility, 1, static_cast<int32>(StartupAbility.GetDefaultObject()->AbilityInputID), this));
-		}
-	}
-}
-
-void ABattleCarsPawn::PossessedBy(AController* NewController)
-{
-	Super::PossessedBy(NewController);
-
-	//Server GAS init
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-	InitializeAttributes();
-	GiveAbilities();
-}
-
-void ABattleCarsPawn::OnRep_PlayerState()
-{
-	Super::OnRep_PlayerState();
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-	InitializeAttributes();
-
-	if (AbilitySystemComponent && InputComponent)
-	{
-		const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
-		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
-	}
-}
+//void ABattleCarsPawn::PossessedBy(AController* NewController)
+//{
+//	Super::PossessedBy(NewController);
+//
+//	//Server GAS init
+//	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+//	InitializeAttributes();
+//	GiveAbilities();
+//}
+//
+//void ABattleCarsPawn::OnRep_PlayerState()
+//{
+//	Super::OnRep_PlayerState();
+//	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+//	InitializeAttributes();
+//
+//	if (AbilitySystemComponent && InputComponent)
+//	{
+//		const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
+//		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
+//	}
+//}
 
 void ABattleCarsPawn::Tick(float Delta)
 {

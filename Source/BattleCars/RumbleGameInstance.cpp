@@ -2,20 +2,25 @@
 
 
 #include "RumbleGameInstance.h"
+
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 
+#include "Trigger.h"
+#include "MainMenu.h"
+
 URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitializer)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Game Instance Constructor"));
+	UE_LOG(LogTemp, Warning, TEXT("Game Init"));
 
 	//Initialize the main menu reference to the widget blueprint.
-	ConstructorHelpers::FClassFinder<UUserWidget>MenuBPClass(TEXT("Game/UI/MainMenu.uasset"));
+	ConstructorHelpers::FClassFinder<UUserWidget>MenuBPClass(TEXT("/Game/UI/MainMenu"));
 
 	//Check if the widget is not null
 	if (!ensure(MenuBPClass.Class != nullptr)) return;
 	MenuClass = MenuBPClass.Class;
+
 }
 
 void URumbleGameInstance::Init()
@@ -26,16 +31,25 @@ void URumbleGameInstance::Init()
 void URumbleGameInstance::LoadMenu()
 {
 	if (!ensure(MenuClass != nullptr)) return;
-	UUserWidget* Menu = CreateWidget<UUserWidget>(this, MenuClass);
+	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
 
-	if (!ensure(Menu != nullptr)) return;
-	Menu->AddToViewport(0);
-	Menu->bIsFocusable = true;
+	Menu->Setup();
+	
+	Menu->SetMenuInterface(this);
+
 }
 
 //Command to Host a game.
 void URumbleGameInstance::Host()
 {
+	if (!ensure(MenuClass != nullptr)) return;
+	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
+
+	if (Menu != nullptr)
+	{
+		Menu->GameFocus();
+	}
+
 	UEngine* Engine = GetEngine();
 	if (!ensure(Engine != nullptr)) return;
 
@@ -46,6 +60,7 @@ void URumbleGameInstance::Host()
 
 	//Travel to world map as listen server.
 	World->ServerTravel("/Game/Maps/TestMap?listen");
+
 
 }
 

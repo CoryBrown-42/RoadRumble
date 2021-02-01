@@ -10,7 +10,8 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine",
-				"GameplayAbilities"
+				"GameplayAbilities",
+				"UMG"
 			]
 		}
 	],
@@ -32,24 +33,12 @@
 			"Enabled": true
 		},
 		{
-			"Name": "Paper2D",
-			"Enabled": false
-		},
-		{
 			"Name": "ExampleAssetEditor",
 			"Enabled": true
 		},
 		{
-			"Name": "AssetSearch",
-			"Enabled": true
-		},
-		{
-			"Name": "DisasterRecoveryClient",
-			"Enabled": true
-		},
-		{
-			"Name": "NiagaraExtras",
-			"Enabled": true
+			"Name": "Paper2D",
+			"Enabled": false
 		}
 	]
 }
