@@ -40,10 +40,10 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 ABattleCarsPawn::ABattleCarsPawn()
 {
 	// Car mesh
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> CarMesh(TEXT("/Game/Vehicle/Sedan/Sedan_SkelMesh.Sedan_SkelMesh"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> CarMesh(TEXT("/Game/VehicleVarietyPack/Skeletons/SK_Pickup"));
 	GetMesh()->SetSkeletalMesh(CarMesh.Object);
 
-	static ConstructorHelpers::FClassFinder<UObject> AnimBPClass(TEXT("/Game/Vehicle/Sedan/Sedan_AnimBP"));
+	static ConstructorHelpers::FClassFinder<UObject> AnimBPClass(TEXT("/Game/VehicleVarietyPack/Blueprints/Pickup/AB_Pickup"));
 	GetMesh()->SetAnimInstanceClass(AnimBPClass.Class);
 	
 	// Simulation
