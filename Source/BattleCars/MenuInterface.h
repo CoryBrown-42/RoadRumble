@@ -25,7 +25,7 @@ class BATTLECARS_API IMenuInterface
 public:
 	
 	virtual void Host() = 0;   // = 0 / Empty Implementation
-
+	virtual void Join(const FString& Address) = 0;
 
 
 };

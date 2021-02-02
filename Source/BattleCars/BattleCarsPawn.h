@@ -7,8 +7,10 @@
 #include "WheeledVehicle.h"
 #include "AbilitySystemInterface.h"
 #include <GameplayEffectTypes.h>
+//#include "AudioCaptureComponent.h"
 #include "BattleCarsPawn.generated.h"
 
+//class UAudioCaptureComponent;
 class UCameraComponent;
 class USpringArmComponent;
 class UTextRenderComponent;
@@ -20,6 +22,10 @@ UCLASS(config=Game)
 class ABattleCarsPawn : public AWheeledVehicle//, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
+
+	/** Component that captures their audio */
+	//UPROPERTY(Category = "Audio", VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	//UAudioCaptureComponent* AudioCapture;
 
 	/** Spring arm that will offset the camera */
 	UPROPERTY(Category = Camera, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -132,6 +138,8 @@ public:
 	void OnResetVR();
 	/** Fire weapon **/
 	void OnWeaponFire();
+
+	void PushToTalk();
 
 	static const FName LookUpBinding;
 	static const FName LookRightBinding;

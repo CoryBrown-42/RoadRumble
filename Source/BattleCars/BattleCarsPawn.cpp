@@ -69,6 +69,9 @@ ABattleCarsPawn::ABattleCarsPawn()
 	Vehicle4W->WheelSetups[3].BoneName = FName("Wheel_Rear_Right");
 	Vehicle4W->WheelSetups[3].AdditionalOffset = FVector(0.f, 12.f, 0.f);
 
+	//Audio Capture Auto Activateis off by default.
+	//AudioCapture->bAutoActivate = false;
+
 	// Create a spring arm component
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm0"));
 	SpringArm->TargetOffset = FVector(0.f, 0.f, 200.f);
@@ -165,6 +168,14 @@ void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	//	AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
 	//}
 }
+
+void ABattleCarsPawn::PushToTalk()
+{
+	//AudioCapture->Activate(true);
+	//UE_LOG(LogTemp, Warning, TEXT("Push to talk activate."));
+}
+
+
 
 void ABattleCarsPawn::MoveForward(float Val)
 {
