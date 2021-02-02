@@ -327,8 +327,11 @@ void ABattleCarsPawn::BeginPlay()
 #if HMD_MODULE_INCLUDED
 	bEnableInCar = UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled();
 #endif // HMD_MODULE_INCLUDED
-	EnableIncarView(bEnableInCar,true);
+	EnableIncarView(bEnableInCar, true);
+
 }
+
+
 
 void ABattleCarsPawn::OnResetVR()
 {

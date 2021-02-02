@@ -25,18 +25,30 @@ public:
 	UPROPERTY(EditAnywhere, meta = (MakeEditWidget = true))
 	FVector TargetLocation;
 
+
+
 	void AddActiveTrigger();
 	void RemoveActiveTrigger();
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+
 private:
+
+	UPROPERTY(VisibleAnywhere, Category = "Volume")
+	class UBoxComponent* TriggerVolume;
 
 	FVector GlobalTargetLocation;
 	FVector GlobalStartLocation;
 
 	UPROPERTY(EditAnywhere)
 	int ActiveTriggers = 1;
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 };

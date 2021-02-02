@@ -37,6 +37,7 @@ void ATrigger::Tick(float DeltaTime)
 //Begin Overlap Event
 void ATrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//if (!ensure(Platform != nullptr)) return;
 	//Log that trigger has been activated by an overlapped AActor
 	UE_LOG(LogTemp, Warning, TEXT("On"));
 
@@ -50,6 +51,7 @@ void ATrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 //End Overlap Event
 void ATrigger::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	// if (!ensure(Platform != nullptr)) return;
 	//Log that trigger has been deactivated.
 	UE_LOG(LogTemp, Warning, TEXT("Off"));
 
