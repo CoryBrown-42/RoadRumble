@@ -123,13 +123,13 @@ ABattleCarsPawn::ABattleCarsPawn()
 	InCarGear->SetupAttachment(GetMesh());
 	
 	// Colors for the incar gear display. One for normal one for reverse
-	GearDisplayReverseColor = FColor(255, 0, 0, 255);
-	GearDisplayColor = FColor(255, 255, 255, 255);
+	GearDisplayReverseColor = FColor(255, 0, 0, 0);
+	GearDisplayColor = FColor(255, 255, 255, 0);
 
 	// Colors for the in-car gear display. One for normal one for reverse
-	GearDisplayReverseColor = FColor(255, 0, 0, 255);
+	GearDisplayReverseColor = FColor(255, 0, 0, 0);
 
-	GearDisplayColor = FColor(255, 255, 255, 255);
+	GearDisplayColor = FColor(255, 255, 255, 0);
 
 	bInReverseGear = false;
 
