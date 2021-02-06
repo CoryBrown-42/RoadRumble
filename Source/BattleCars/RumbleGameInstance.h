@@ -25,7 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadMenu();
 
-	/*Host an online game.*/
+	UFUNCTION(BlueprintCallable)
+    void InGameLoadMenu();
+	
 	UFUNCTION(exec)
 	void Host();
 
@@ -36,6 +38,8 @@ public:
 	void Kill();
 
 private:
+	
 	TSubclassOf<class UUserWidget> MenuClass;
+	TSubclassOf<class UUserWidget> InGameMenuClass;
 
 };

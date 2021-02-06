@@ -6,9 +6,10 @@
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
-
 #include "Trigger.h"
 #include "MainMenu.h"
+#include "InGameMenu.h"
+#include "BCSaveGame.h"
 
 URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitializer)
 {
@@ -16,16 +17,23 @@ URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitial
 
 	//Initialize the main menu reference to the widget blueprint.
 	ConstructorHelpers::FClassFinder<UUserWidget>MenuBPClass(TEXT("/Game/UI/MainMenu"));
-
 	//Check if the widget is not null
 	if (!ensure(MenuBPClass.Class != nullptr)) return;
 	MenuClass = MenuBPClass.Class;
+
+
+	//Initialize the in-game menu reference to the widget blueprint.
+	ConstructorHelpers::FClassFinder<UUserWidget>InGameMenuBPClass(TEXT("/Game/UI/InGameMenu"));
+	//Check if the widget is not null
+	if (!ensure(InGameMenuBPClass.Class != nullptr)) return;
+	InGameMenuClass = InGameMenuBPClass.Class;
 
 }
 
 void URumbleGameInstance::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Game Instance Init"));
+	
 }
 
 void URumbleGameInstance::LoadMenu()
@@ -38,6 +46,16 @@ void URumbleGameInstance::LoadMenu()
 	Menu->SetMenuInterface(this);
 
 }
+
+void URumbleGameInstance::InGameLoadMenu()
+{
+	if (!ensure(InGameMenuClass != nullptr)) return;
+	UInGameMenu* GameMenu = CreateWidget<UInGameMenu>(this, InGameMenuClass);
+
+	GameMenu->Setup();
+	GameMenu->SetMenuInterface(this);
+}
+
 
 //Command to Host a game.
 void URumbleGameInstance::Host()

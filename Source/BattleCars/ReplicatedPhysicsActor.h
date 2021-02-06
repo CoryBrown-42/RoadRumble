@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class BATTLECARS_API AReplicatedPhysicsActor : public AStaticMeshActor
 {
 	GENERATED_BODY()
@@ -17,10 +17,10 @@ class BATTLECARS_API AReplicatedPhysicsActor : public AStaticMeshActor
 public:
 	AReplicatedPhysicsActor();
 
-	UFUNCTION(Server, Reliable, WithValidation)
-	void SimulatePhysics();
-
-	UPROPERTY()
-	UStaticMeshComponent* Mesh;
+	/*UFUNCTION(Server, Reliable, WithValidation)
+	virtual void SimulatePhysics();
+	*/
+	//UPROPERTY()
+	//UStaticMeshComponent* Mesh;
 
 };

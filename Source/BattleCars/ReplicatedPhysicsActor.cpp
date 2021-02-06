@@ -10,12 +10,14 @@ AReplicatedPhysicsActor::AReplicatedPhysicsActor()
 	SetMobility(EComponentMobility::Movable);
 	bReplicates = true;
 
-	UStaticMeshComponent* Mesh;
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	///UStaticMeshComponent* Mesh;
+	//Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	
+	///static ConstructorHelpers::FObjectFinder<UStaticMesh> Mesh(TEXT("/Game/VehicleVarietyPack/Skeletons/SK_Pickup"));
 	
 }
 
-void AReplicatedPhysicsActor::SimulatePhysics()
-{
-	Mesh->SetSimulatePhysics(true);
-}
+//void AReplicatedPhysicsActor::SimulatePhysics()
+//{
+//	Mesh->SetSimulatePhysics(true);
+//}

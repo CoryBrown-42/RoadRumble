@@ -4,6 +4,7 @@
 #include "BattleCarsWheelFront.h"
 #include "BattleCarsWheelRear.h"
 #include "BattleCarsHud.h"
+#include "InGameMenu.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -15,6 +16,8 @@
 #include "Components/TextRenderComponent.h"
 #include "Materials/Material.h"
 #include "GameFramework/Controller.h"
+#include "InGameMenu.h"
+#include "RumbleGameInstance.h"
 //#include "GASAbilitySystemComponent.h"
 //#include "GASAttributeSet.h"
 //#include "GASGameplayAbility.h"
@@ -159,6 +162,7 @@ void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Handbrake", IE_Released, this, &ABattleCarsPawn::OnHandbrakeReleased);
 	PlayerInputComponent->BindAction("SwitchCamera", IE_Pressed, this, &ABattleCarsPawn::OnToggleCamera);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ABattleCarsPawn::OnWeaponFire);
+	PlayerInputComponent->BindAction("InGameMenu", IE_Pressed, this, &ABattleCarsPawn::InGameMenu);
 
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABattleCarsPawn::OnResetVR); 
 
@@ -201,6 +205,11 @@ void ABattleCarsPawn::OnHandbrakeReleased()
 void ABattleCarsPawn::OnWeaponFire()
 {
 	//GetVehicleMovementComponent()->SetHandbrakeInput(false);
+}
+
+void ABattleCarsPawn::InGameMenu()
+{
+	Cast<URumbleGameInstance>(GetGameInstance())->InGameLoadMenu();
 }
 
 void ABattleCarsPawn::OnToggleCamera()

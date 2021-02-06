@@ -138,6 +138,8 @@ public:
 	void OnResetVR();
 	/** Fire weapon **/
 	void OnWeaponFire();
+	/** Fire weapon **/
+	void InGameMenu();
 
 	void PushToTalk();
 

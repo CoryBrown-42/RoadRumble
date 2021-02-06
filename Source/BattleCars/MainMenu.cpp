@@ -2,9 +2,12 @@
 
 
 #include "MainMenu.h"
+#include "RumbleGameInstance.h"
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/EditableTextBox.h"
+
+
 
 bool UMainMenu::Initialize()
 {
@@ -24,7 +27,6 @@ bool UMainMenu::Initialize()
 	if (!ensure(SubJoinBtn != nullptr)) return false;
 	SubJoinBtn->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
 
-
 	return true;
 
 }
@@ -36,10 +38,8 @@ void UMainMenu::SetMenuInterface(IMenuInterface* MMenuInterface)
 
 void UMainMenu::Setup()
 {
-
 	this->AddToViewport(0);
 	this->bIsFocusable = true;
-	/*Handle the the behavior of the widget we adding to the screen.*/
 
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
@@ -53,13 +53,10 @@ void UMainMenu::Setup()
 
 	PlayerController->SetInputMode(InputModeData);
 	PlayerController->bShowMouseCursor = true;
-
-	
 }
 
 void UMainMenu::GameFocus()
 {
-
 	this->RemoveFromViewport();
 
 	UWorld* World = GetWorld();
@@ -68,8 +65,8 @@ void UMainMenu::GameFocus()
 	APlayerController* PlayerController = World->GetFirstPlayerController();
 	if (!ensure(PlayerController != nullptr)) return;
 
-	// Sets back InputMode to Game Only
-	FInputModeGameOnly InputModeData;
+	// Sets back InputMode to game only
+	const FInputModeGameOnly InputModeData;
 	PlayerController->SetInputMode(InputModeData);
 	PlayerController->bShowMouseCursor = false;
 }
