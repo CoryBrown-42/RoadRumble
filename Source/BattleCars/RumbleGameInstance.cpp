@@ -6,6 +6,8 @@
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
+#include "OnlineSubsystem.h"
+
 #include "Trigger.h"
 #include "MainMenu.h"
 #include "InGameMenu.h"
@@ -99,4 +101,11 @@ void URumbleGameInstance::Join(const FString& Address)
 void URumbleGameInstance::Kill()
 {
 	GetPrimaryPlayerController(true)->GetOwner()->Destroy();
+}
+
+void URumbleGameInstance::LoadMainMenu()
+{
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+	PlayerController->ClientTravel("/Game/Maps/MainMenu", ETravelType::TRAVEL_Absolute);
 }

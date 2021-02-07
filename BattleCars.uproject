@@ -43,6 +43,10 @@
 		{
 			"Name": "GPULightmass",
 			"Enabled": true
+		},
+		{
+			"Name": "OnlineSubsystemSteam",
+			"Enabled": true
 		}
 	]
 }

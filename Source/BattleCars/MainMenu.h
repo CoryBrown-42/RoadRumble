@@ -3,27 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "MenuInterface.h"
+#include "MenuWidget.h"
 #include "MainMenu.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BATTLECARS_API UMainMenu : public UUserWidget
+class BATTLECARS_API UMainMenu : public UMenuWidget
 {
 	GENERATED_BODY()
-
-
-public:
-
-	void SetMenuInterface(IMenuInterface* MMenuInterface);
-
-	void Setup();
-
-	void GameFocus();
-
 
 protected:
 
@@ -38,6 +27,9 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	class UButton* JoinBtn;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* QuitBtn;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* BackBtn;
@@ -70,7 +62,10 @@ private:
 	UFUNCTION()
 	void JoinServer();
 
-	IMenuInterface* MenuInterface = nullptr;
+	UFUNCTION()
+	void QuitGame();
+
+	
 	
 
 };

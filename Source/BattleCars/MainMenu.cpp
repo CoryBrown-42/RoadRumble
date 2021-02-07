@@ -27,48 +27,11 @@ bool UMainMenu::Initialize()
 	if (!ensure(SubJoinBtn != nullptr)) return false;
 	SubJoinBtn->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
 
+	if (!ensure(QuitBtn != nullptr)) return false;
+	QuitBtn->OnClicked.AddDynamic(this, &UMainMenu::QuitGame);
+
 	return true;
 
-}
-
-void UMainMenu::SetMenuInterface(IMenuInterface* MMenuInterface)
-{
-	MenuInterface = MMenuInterface;
-}
-
-void UMainMenu::Setup()
-{
-	this->AddToViewport(0);
-	this->bIsFocusable = true;
-
-	UWorld* World = GetWorld();
-	if (!ensure(World != nullptr)) return;
-
-	APlayerController* PlayerController = World->GetFirstPlayerController();
-	if (!ensure(PlayerController != nullptr)) return;
-
-	FInputModeUIOnly InputModeData;
-	InputModeData.SetWidgetToFocus(this->TakeWidget());
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-
-	PlayerController->SetInputMode(InputModeData);
-	PlayerController->bShowMouseCursor = true;
-}
-
-void UMainMenu::GameFocus()
-{
-	this->RemoveFromViewport();
-
-	UWorld* World = GetWorld();
-	if (!ensure(World != nullptr)) return;
-
-	APlayerController* PlayerController = World->GetFirstPlayerController();
-	if (!ensure(PlayerController != nullptr)) return;
-
-	// Sets back InputMode to game only
-	const FInputModeGameOnly InputModeData;
-	PlayerController->SetInputMode(InputModeData);
-	PlayerController->bShowMouseCursor = false;
 }
 
 
@@ -78,6 +41,18 @@ void UMainMenu::HostServer()
 	{
 		MenuInterface->Host();
 	}
+}
+
+void UMainMenu::QuitGame()
+{
+	
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+
+	APlayerController* PlayerController = World->GetFirstPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	PlayerController->ConsoleCommand("Quit");
 }
 
 void UMainMenu::OpenJoinMenu()

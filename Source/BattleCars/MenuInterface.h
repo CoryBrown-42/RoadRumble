@@ -24,8 +24,8 @@ class BATTLECARS_API IMenuInterface
 
 public:
 	
-	virtual void Host() = 0;   // = 0 / Empty Implementation
-	virtual void Join(const FString& Address) = 0;
-
+	virtual void Host() = 0;						// = 0 / Empty Implementation
+	virtual void Join(const FString& Address) = 0;	// Joins Server from IP address
+	virtual void LoadMainMenu() =0;					//Only moves client
 
 };
