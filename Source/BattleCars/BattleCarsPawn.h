@@ -19,7 +19,7 @@ class UInputComponent;
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 UCLASS(config=Game)
-class ABattleCarsPawn : public AWheeledVehicle//, public IAbilitySystemInterface
+class ABattleCarsPawn : public AWheeledVehicle, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -52,12 +52,12 @@ class ABattleCarsPawn : public AWheeledVehicle//, public IAbilitySystemInterface
 	UTextRenderComponent* InCarGear;
 
 
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities", meta = (AllowPrivateAccess = "true"))
-	//class UGASAbilitySystemComponent* AbilitySystemComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities", meta = (AllowPrivateAccess = "true"))
+	class UGASAbilitySystemComponent* AbilitySystemComponent;
 
 
-	//UPROPERTY()
-	//class UGASAttributeSet* Attributes;
+	UPROPERTY()
+	class UGASAttributeSet* Attributes;
 
 	
 public:
@@ -92,21 +92,21 @@ public:
 
 	// Begin Pawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-	//
-	//virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	/*GAS*/
-	//virtual void InitializeAttributes();
-	//virtual void GiveAbilities();
-	//
-	//virtual void PossessedBy(AController* NewController) override;
-	//virtual void OnRep_PlayerState() override;
-	//
-	//UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS")
-	//TSubclassOf<class UGameplayEffect> DefaultAttributeEfffect;
-	//
-	//UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS")
-	//TArray<TSubclassOf<class UGASGameplayAbility>> DefaultAbilities;
+	virtual void InitializeAttributes();
+	virtual void GiveAbilities();
+	
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+	
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS")
+	TSubclassOf<class UGameplayEffect> DefaultAttributeEfffect;
+	
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS")
+	TArray<TSubclassOf<class UGASGameplayAbility>> DefaultAbilities;
 
 
 
@@ -140,7 +140,9 @@ public:
 	void OnWeaponFire();
 	/** Fire weapon **/
 	void InGameMenu();
-
+	/*Reset car after a turnover*/
+	void ResetCar();
+	/*For VOIP*/
 	void PushToTalk();
 
 	static const FName LookUpBinding;

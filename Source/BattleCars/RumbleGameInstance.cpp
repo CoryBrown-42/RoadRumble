@@ -35,10 +35,25 @@ URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitial
 void URumbleGameInstance::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Game Instance Init"));
+	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+	if (Subsystem != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Found Subsystem %s"), *Subsystem->GetSubsystemName().ToString());
+		IOnlineSessionPtr SessionInterface = Subsystem->GetSessionInterface();
+		if (SessionInterface.IsValid())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Found Subsystem Interface"));
+		}
+
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Found No Subsystem"));
+	}
 	
 }
 
-void URumbleGameInstance::LoadMenu()
+void URumbleGameInstance::LoadMenuWidget()
 {
 	if (!ensure(MenuClass != nullptr)) return;
 	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);

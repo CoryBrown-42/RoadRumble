@@ -23,7 +23,7 @@ public:
 	/*This function loads the Main Menu and adds it to the viewport.
 	It also validates that the menu has been successfully created before adding it.*/
 	UFUNCTION(BlueprintCallable)
-	void LoadMenu();
+	void LoadMenuWidget();
 
 	UFUNCTION(BlueprintCallable)
     void InGameLoadMenu();

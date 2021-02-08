@@ -18,10 +18,10 @@
 #include "GameFramework/Controller.h"
 #include "InGameMenu.h"
 #include "RumbleGameInstance.h"
-//#include "GASAbilitySystemComponent.h"
-//#include "GASAttributeSet.h"
-//#include "GASGameplayAbility.h"
-//#include <GameplayEffectTypes.h>
+#include "GASAbilitySystemComponent.h"
+#include "GASAttributeSet.h"
+#include "GASGameplayAbility.h"
+#include <GameplayEffectTypes.h>
 
 #ifndef HMD_MODULE_INCLUDED
 #define HMD_MODULE_INCLUDED 0
@@ -72,7 +72,7 @@ ABattleCarsPawn::ABattleCarsPawn()
 	Vehicle4W->WheelSetups[3].BoneName = FName("Wheel_Rear_Right");
 	Vehicle4W->WheelSetups[3].AdditionalOffset = FVector(0.f, 12.f, 0.f);
 
-	//Audio Capture Auto Activateis off by default.
+	//Audio Capture Auto Activates off by default.
 	//AudioCapture->bAutoActivate = false;
 
 	// Create a spring arm component
@@ -125,7 +125,7 @@ ABattleCarsPawn::ABattleCarsPawn()
 	InCarGear->SetRelativeScale3D(FVector(1.0f, 0.4f, 0.4f));
 	InCarGear->SetupAttachment(GetMesh());
 	
-	// Colors for the incar gear display. One for normal one for reverse
+	// Colors for the in-car gear display. One for normal one for reverse
 	GearDisplayReverseColor = FColor(255, 0, 0, 0);
 	GearDisplayColor = FColor(255, 255, 255, 0);
 
@@ -136,11 +136,11 @@ ABattleCarsPawn::ABattleCarsPawn()
 
 	bInReverseGear = false;
 
-	//AbilitySystemComponent = CreateDefaultSubobject<UGASAbilitySystemComponent>("AbilitySystemComponent");
-	//AbilitySystemComponent->SetIsReplicated(true);
-	//AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
-	//
-	//Attributes = CreateDefaultSubobject<UGASAttributeSet>("Attributes");
+	AbilitySystemComponent = CreateDefaultSubobject<UGASAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	
+	Attributes = CreateDefaultSubobject<UGASAttributeSet>("Attributes");
 
 }
 
@@ -150,7 +150,7 @@ void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	//
-	//// set up gameplay key bindings
+	//set up gameplay key bindings
 	//check(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ABattleCarsPawn::MoveForward);
@@ -164,13 +164,15 @@ void ABattleCarsPawn::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &ABattleCarsPawn::OnWeaponFire);
 	PlayerInputComponent->BindAction("InGameMenu", IE_Pressed, this, &ABattleCarsPawn::InGameMenu);
 
+	PlayerInputComponent->BindAction("ResetFromFlip", IE_Pressed, this, &ABattleCarsPawn::ResetCar);
+
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABattleCarsPawn::OnResetVR); 
 
-	//if (AbilitySystemComponent && InputComponent)
-	//{
-	//	const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
-	//	AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
-	//}
+	if (AbilitySystemComponent && InputComponent)
+	{
+		const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
+		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
+	}
 }
 
 void ABattleCarsPawn::PushToTalk()
@@ -204,12 +206,19 @@ void ABattleCarsPawn::OnHandbrakeReleased()
 
 void ABattleCarsPawn::OnWeaponFire()
 {
-	//GetVehicleMovementComponent()->SetHandbrakeInput(false);
+	//Setup Spawning and firing of projectiles before implementing a pool
 }
 
 void ABattleCarsPawn::InGameMenu()
 {
 	Cast<URumbleGameInstance>(GetGameInstance())->InGameLoadMenu();
+}
+
+void ABattleCarsPawn::ResetCar()
+{
+	if(!ensure(GetMesh() != nullptr)) return;
+	this->SetActorRotation(FQuat(0, 0, GetActorRotation().Yaw, 0), ETeleportType::TeleportPhysics);
+	UE_LOG(LogTemp, Warning, TEXT("Reset Rotation"));
 }
 
 void ABattleCarsPawn::OnToggleCamera()
@@ -240,61 +249,63 @@ void ABattleCarsPawn::EnableIncarView(const bool bState, const bool bForce)
 	}
 }
 
-//class UAbilitySystemComponent* ABattleCarsPawn::GetAbilitySystemComponent() const 
-//{
-//	return AbilitySystemComponent;
-//}
+class UAbilitySystemComponent* ABattleCarsPawn::GetAbilitySystemComponent() const 
+{
+	return AbilitySystemComponent;
+}
 
-//void ABattleCarsPawn::InitializeAttributes()
-//{
-//	if (AbilitySystemComponent && DefaultAttributeEfffect)
-//	{
-//		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
-//		EffectContext.AddSourceObject(this);
-//
-//		FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEfffect, 1, EffectContext);
-//
-//		if (SpecHandle.IsValid())
-//		{
-//			FActiveGameplayEffectHandle GEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-//		}
-//
-//	}
-//}
+void ABattleCarsPawn::InitializeAttributes()
+{
+	if (AbilitySystemComponent && DefaultAttributeEfffect)
+	{
+		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+		EffectContext.AddSourceObject(this);
 
-//void ABattleCarsPawn::GiveAbilities()
-//{
-//	if (HasAuthority() && AbilitySystemComponent)
-//	{
-//		for (TSubclassOf<UGASGameplayAbility>& StartupAbility : DefaultAbilities)
-//		{
-//			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility, 1, static_cast<int32>(StartupAbility.GetDefaultObject()->AbilityInputID), this));
-//		}
-//	}
-//}
+		FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEfffect, 1, EffectContext);
 
-//void ABattleCarsPawn::PossessedBy(AController* NewController)
-//{
-//	Super::PossessedBy(NewController);
-//
-//	//Server GAS init
-//	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-//	InitializeAttributes();
-//	GiveAbilities();
-//}
-//
-//void ABattleCarsPawn::OnRep_PlayerState()
-//{
-//	Super::OnRep_PlayerState();
-//	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-//	InitializeAttributes();
-//
-//	if (AbilitySystemComponent && InputComponent)
-//	{
-//		const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
-//		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
-//	}
-//}
+		if (SpecHandle.IsValid())
+		{
+			FActiveGameplayEffectHandle GEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+		}
+
+	}
+}
+
+void ABattleCarsPawn::GiveAbilities()
+{
+	if (HasAuthority() && AbilitySystemComponent)
+	{
+		for (TSubclassOf<UGASGameplayAbility>& StartupAbility : DefaultAbilities)
+		{
+			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility, 1, static_cast<int32>(StartupAbility.GetDefaultObject()->AbilityInputID), this));
+		}
+	}
+}
+
+void ABattleCarsPawn::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	//Server GAS init
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	InitializeAttributes();
+	GiveAbilities();
+}
+
+void ABattleCarsPawn::OnRep_PlayerState()
+{
+
+	//Client Ability System Component
+	Super::OnRep_PlayerState();
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	InitializeAttributes();
+
+	if (AbilitySystemComponent && InputComponent)
+	{
+		const FGameplayAbilityInputBinds Binds("Confirm", "Cancel", "EGASAbilityInputID", static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
+		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
+	}
+}
 
 void ABattleCarsPawn::Tick(float Delta)
 {
@@ -303,10 +314,10 @@ void ABattleCarsPawn::Tick(float Delta)
 	// Setup the flag to say we are in reverse gear
 	bInReverseGear = GetVehicleMovement()->GetCurrentGear() < 0;
 	
-	// Update the strings used in the HUD (incar and onscreen)
+	// Update the strings used in the HUD (in car and on screen)
 	UpdateHUDStrings();
 
-	// Set the string in the incar HUD
+	// Set the string in the in car HUD
 	SetupInCarHUD();
 
 	bool bHMDActive = false;

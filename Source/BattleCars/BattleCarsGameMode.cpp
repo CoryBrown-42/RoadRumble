@@ -7,5 +7,4 @@
 ABattleCarsGameMode::ABattleCarsGameMode()
 {
 	DefaultPawnClass = ABattleCarsPawn::StaticClass();
-	HUDClass = ABattleCarsHud::StaticClass();
 }
