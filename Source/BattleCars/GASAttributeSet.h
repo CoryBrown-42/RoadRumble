@@ -36,12 +36,12 @@ public:
 
 
 
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Stamina)
-	FGameplayAttributeData Stamina;
-	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Stamina);
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Boost)
+	FGameplayAttributeData Boost;
+	ATTRIBUTE_ACCESSORS(UGASAttributeSet, Boost);
 
 	UFUNCTION()
-	virtual void OnRep_Stamina(const FGameplayAttributeData& OldStamina);
+	virtual void OnRep_Boost(const FGameplayAttributeData& OldBoost);
 
 
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_AttackPower)

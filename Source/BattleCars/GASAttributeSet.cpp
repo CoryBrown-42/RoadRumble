@@ -15,7 +15,7 @@ void UGASAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Health, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Boost, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, AttackPower, COND_None, REPNOTIFY_Always);
 }
 
@@ -24,9 +24,9 @@ void UGASAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Health, OldHealth);
 }
 
-void UGASAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamina)
+void UGASAttributeSet::OnRep_Boost(const FGameplayAttributeData& OldBoost)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Stamina, OldStamina);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Boost, OldBoost);
 }
 
 void UGASAttributeSet::OnRep_AttackPower(const FGameplayAttributeData& OldAttackPower)
