@@ -35,6 +35,9 @@ URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitial
 
 }
 
+/*Initialize the game instance.
+Checks if the online subsystem isn't null and log that the Subsystem has been found.
+If there is already a session - destroy it*/
 void URumbleGameInstance::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Game Instance Init"));
@@ -53,6 +56,7 @@ void URumbleGameInstance::Init()
 	}
 	else
 	{
+		//No subsystem is was found.
 		UE_LOG(LogTemp, Warning, TEXT("Found No Subsystem"));
 	}
 	
@@ -62,9 +66,8 @@ void URumbleGameInstance::LoadMenuWidget()
 {
 	if (!ensure(MenuClass != nullptr)) return;
 	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
-
+	//Setup Menu
 	Menu->Setup();
-	
 	Menu->SetMenuInterface(this);
 
 }

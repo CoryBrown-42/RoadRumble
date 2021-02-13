@@ -48,8 +48,5 @@
 			"Name": "OnlineSubsystemSteam",
 			"Enabled": true
 		}
-	],
-	"AdditionalPluginDirectories": [
-		"Mods"
 	]
 }
