@@ -46,6 +46,8 @@ public:
 	
 	TSubclassOf<class UUserWidget> MenuClass;
 	TSubclassOf<class UUserWidget> InGameMenuClass;
+
+
 private:
 
 	IOnlineSessionPtr SessionInterface;
