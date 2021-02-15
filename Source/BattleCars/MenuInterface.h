@@ -27,5 +27,5 @@ public:
 	virtual void Host() = 0;						// = 0 / Empty Implementation
 	virtual void Join(const FString& Address) = 0;	// Joins Server from IP address
 	virtual void LoadMainMenu() =0;					//Only moves client
-
+	virtual void RefreshServerList() = 0;			//Clears Server List
 };

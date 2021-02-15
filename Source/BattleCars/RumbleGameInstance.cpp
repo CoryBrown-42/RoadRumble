@@ -50,7 +50,7 @@ void URumbleGameInstance::Init()
 		{
 			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &URumbleGameInstance::OnCreateSessionComplete);
 			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &URumbleGameInstance::OnDestroySessionComplete);
-
+			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &URumbleGameInstance::OnFindSessionsComplete);
 		}
 
 	}
@@ -66,6 +66,7 @@ void URumbleGameInstance::LoadMenuWidget()
 {
 	if (!ensure(MenuClass != nullptr)) return;
 	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
+	if (!ensure(Menu != nullptr)) return;
 	//Setup Menu
 	Menu->Setup();
 	Menu->SetMenuInterface(this);
@@ -135,28 +136,76 @@ void URumbleGameInstance::OnDestroySessionComplete(FName SessionName, bool Succe
 	}
 }
 
-void URumbleGameInstance::CreateSession()
+void URumbleGameInstance::RefreshServerList()
 {
-	if (SessionInterface.IsValid())
+	SessionSearch = MakeShareable(new FOnlineSessionSearch());
+	if (SessionSearch.IsValid())
 	{
-		FOnlineSessionSettings SessionSettings;
-		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
+		//SessionSearch->bIsLanQuery = true;
+		//Lan Query for now but we'll need to set up Steam
+		//SessionSearch->QuerySettings.Set
+		UE_LOG(LogTemp, Warning, TEXT("Starting Find Session"));
+		SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 	}
-	
+}
+
+void URumbleGameInstance::OnFindSessionsComplete(bool Success)
+{	
+	if (!ensure(MenuClass != nullptr)) return;
+	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
+
+	if (Success && SessionSearch.IsValid() && Menu != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Finished Finding Session"));
+
+		TArray<FString> ServerNames;
+
+		for (const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Found Session name: %s"), *SearchResult.GetSessionIdStr());
+			ServerNames.Add(SearchResult.GetSessionIdStr());
+		}
+		Menu->SetServerList(ServerNames);
+	}
 }
 
 //Command to Join a game.
 void URumbleGameInstance::Join(const FString& Address)
 {
-	UEngine* Engine = GetEngine();
-	if (!ensure(Engine != nullptr)) return;
-	Engine->AddOnScreenDebugMessage(1, 5, FColor::Green, FString::Printf(TEXT("Joinging %s"), *Address));
+	if (!ensure(MenuClass != nullptr)) return;
+	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
 
-	APlayerController* PlayerController = GetFirstLocalPlayerController();
-	if (!ensure(PlayerController != nullptr)) return;
-
-	PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
+	if (Menu != nullptr)
+	{
+		Menu->SetServerList({ "Test1", "Test2" });
+	}
+	//UEngine* Engine = GetEngine();
+	//if (!ensure(Engine != nullptr)) return;
+	//Engine->AddOnScreenDebugMessage(1, 5, FColor::Green, FString::Printf(TEXT("Joinging %s"), *Address));
+	//
+	//APlayerController* PlayerController = GetFirstLocalPlayerController();
+	//if (!ensure(PlayerController != nullptr)) return;
+	//
+	//PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
 }
+
+void URumbleGameInstance::CreateSession()
+{
+	if (SessionInterface.IsValid())
+	{
+		FOnlineSessionSettings SessionSettings;
+
+		//Session Settings
+		SessionSettings.bIsLANMatch = true;
+		SessionSettings.NumPublicConnections = 6;
+		SessionSettings.bShouldAdvertise = true;
+
+		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
+	}
+	
+}
+
+
 
 //Command to Kill yourself.
 void URumbleGameInstance::Kill()

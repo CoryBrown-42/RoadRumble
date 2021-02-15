@@ -31,6 +31,8 @@ public:
     void InGameLoadMenu();
 
 	virtual void LoadMainMenu() override;
+
+	void RefreshServerList() override;
 	
 	UFUNCTION(exec)
 	void Host() override;
@@ -41,14 +43,20 @@ public:
 	UFUNCTION(exec)
 	void Kill();
 
-private:
 	
 	TSubclassOf<class UUserWidget> MenuClass;
 	TSubclassOf<class UUserWidget> InGameMenuClass;
+private:
 
 	IOnlineSessionPtr SessionInterface;
+
+	TSharedPtr<class FOnlineSessionSearch> SessionSearch;
+
 	void OnCreateSessionComplete(FName SessionName, bool Success);
 	void OnDestroySessionComplete(FName SessionName, bool Success);
+	void OnFindSessionsComplete(bool Success);
+
+
 
 	void CreateSession();
 
