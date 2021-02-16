@@ -50,7 +50,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Max)
 	int32 MaxLevel;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Abilities)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AssetBundles = "Ability"))
 	TSubclassOf<UGASGameplayAbility> GrantedAbility;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Abilities)
