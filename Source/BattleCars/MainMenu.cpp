@@ -4,7 +4,6 @@
 #include "MainMenu.h"
 
 #include "UObject/ConstructorHelpers.h"
-
 #include "RumbleGameInstance.h"
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
@@ -121,15 +120,14 @@ void UMainMenu::OpenMainMenu()
 }
 
 void UMainMenu::QuitGame()
-{
-	
-	UWorld* World = GetWorld();
-	if (!ensure(World != nullptr)) return;
+{	
+	URumbleGameInstance* GI = Cast<URumbleGameInstance>(GetGameInstance());
 
-	APlayerController* PlayerController = World->GetFirstPlayerController();
-	if (!ensure(PlayerController != nullptr)) return;
-
-	PlayerController->ConsoleCommand("Quit");
+	if(GI != nullptr)
+	{
+		GI->LoadQuitMenu();
+		QuitBtn->bIsEnabled = false;
+	}
 }
 
 

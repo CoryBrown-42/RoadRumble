@@ -11,6 +11,7 @@
 #include "Trigger.h"
 #include "MainMenu.h"
 #include "InGameMenu.h"
+#include "QuitMenu.h"
 #include "BCSaveGame.h"
 
 const static FName SESSION_NAME = TEXT("Game Session");
@@ -32,6 +33,12 @@ URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitial
 	//Check if the widget is not null
 	if (!ensure(InGameMenuBPClass.Class != nullptr)) return;
 	InGameMenuClass = InGameMenuBPClass.Class;
+
+	/*Initialize the quit menu*/
+	ConstructorHelpers::FClassFinder<UUserWidget>QuitMenuBPClass(TEXT("/Game/UI/QuitMenu"));
+	//Check if the widget is not null
+	if (!ensure(QuitMenuBPClass.Class != nullptr)) return;
+	QuitMenuClass = QuitMenuBPClass.Class;
 
 }
 
@@ -80,6 +87,18 @@ void URumbleGameInstance::InGameLoadMenu()
 
 	GameMenu->Setup();
 	GameMenu->SetMenuInterface(this);
+}
+
+void URumbleGameInstance::LoadQuitMenu()
+{
+	if (!ensure(QuitMenuClass != nullptr)) return;
+	UQuitMenu* QuitMenu = CreateWidget<UQuitMenu>(this, QuitMenuClass);
+	if (QuitMenu != nullptr)
+	{
+		QuitMenu->Setup();
+		QuitMenu->SetMenuInterface(this);
+	}
+	
 }
 
 //Command to Host a game.

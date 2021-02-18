@@ -24,6 +24,8 @@ public:
 
 	void GameFocus();
 
+	void TearDown();
+
 protected:
 
 	IMenuInterface* MenuInterface;

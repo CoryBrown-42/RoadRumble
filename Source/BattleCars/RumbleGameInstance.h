@@ -30,6 +30,9 @@ public:
 	UFUNCTION(BlueprintCallable)
     void InGameLoadMenu();
 
+	UFUNCTION(BlueprintCallable)
+	void LoadQuitMenu();
+
 	virtual void LoadMainMenu() override;
 
 	void RefreshServerList() override;
@@ -46,6 +49,7 @@ public:
 	
 	TSubclassOf<class UUserWidget> MenuClass;
 	TSubclassOf<class UUserWidget> InGameMenuClass;
+	TSubclassOf<class UUserWidget> QuitMenuClass;
 
 
 private:
