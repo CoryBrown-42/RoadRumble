@@ -51,6 +51,15 @@
 		{
 			"Name": "ChaosVehiclesPlugin",
 			"Enabled": true
+		},
+		{
+			"Name": "DiscordUE4",
+			"Enabled": true
+		},
+		{
+			"Name": "TwitchPlay",
+			"Enabled": true,
+			"MarketplaceURL": "https://www.unrealengine.com/marketplace/twitchplay-plugin"
 		}
 	]
 }
