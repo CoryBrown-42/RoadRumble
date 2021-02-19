@@ -122,7 +122,6 @@ void UMainMenu::OpenMainMenu()
 void UMainMenu::QuitGame()
 {	
 	URumbleGameInstance* GI = Cast<URumbleGameInstance>(GetGameInstance());
-
 	if(GI != nullptr)
 	{
 		GI->LoadQuitMenu();

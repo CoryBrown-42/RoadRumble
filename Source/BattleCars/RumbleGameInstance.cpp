@@ -8,6 +8,8 @@
 #include "Blueprint/UserWidget.h"
 #include "OnlineSessionSettings.h"
 #include "Interfaces/OnlineSessionInterface.h"
+#include "DiscordUE4.h"
+#include "DiscordObject.h"
 #include "Trigger.h"
 #include "MainMenu.h"
 #include "InGameMenu.h"
@@ -15,7 +17,6 @@
 #include "BCSaveGame.h"
 
 const static FName SESSION_NAME = TEXT("Game Session");
-
 
 URumbleGameInstance::URumbleGameInstance(const FObjectInitializer& ObjectInitializer)
 {
@@ -237,4 +238,10 @@ void URumbleGameInstance::LoadMainMenu()
 	APlayerController* PlayerController = GetFirstLocalPlayerController();
 	if (!ensure(PlayerController != nullptr)) return;
 	PlayerController->ClientTravel("/Game/Maps/MainMenu", ETravelType::TRAVEL_Absolute);
+}
+
+
+void URumbleGameInstance::SetUpDiscord()
+{
+
 }

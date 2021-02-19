@@ -35,6 +35,7 @@ public:
 
 	virtual void LoadMainMenu() override;
 
+	void SetUpDiscord();
 	void RefreshServerList() override;
 	
 	UFUNCTION(exec)
