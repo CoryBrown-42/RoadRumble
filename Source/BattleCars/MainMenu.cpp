@@ -100,6 +100,11 @@ void UMainMenu::JoinServer()
 	}
 }
 
+void UMainMenu::AddLoadingScreen()
+{
+
+}
+
 void UMainMenu::OpenJoinMenu()
 {
 	if (!ensure(MenuSwitcher != nullptr)) return;
@@ -122,10 +127,14 @@ void UMainMenu::OpenMainMenu()
 void UMainMenu::QuitGame()
 {	
 	URumbleGameInstance* GI = Cast<URumbleGameInstance>(GetGameInstance());
+	if (!ensure(GI != nullptr)) return;
 	if(GI != nullptr)
 	{
 		GI->LoadQuitMenu();
-		QuitBtn->bIsEnabled = false;
+	}
+	else
+	{
+		
 	}
 }
 

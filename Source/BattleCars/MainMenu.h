@@ -30,6 +30,7 @@ protected:
 private:
 
 	TSubclassOf<class UUserWidget> ServerRowClass;
+	TSubclassOf<class UUserWidget> LoadingScreenClass;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* HostBtn;
@@ -70,6 +71,9 @@ private:
 
 	UFUNCTION()
 	void JoinServer();
+
+	UFUNCTION()
+	void AddLoadingScreen();
 
 	UFUNCTION()
 	void QuitGame();
